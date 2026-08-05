@@ -1,0 +1,270 @@
+.app-shell {
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-main {
+  width: 100%;
+  max-width: 480px;
+  padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Header */
+
+.app-header {
+  text-align: center;
+  padding-top: 4px;
+}
+
+.app-header__title {
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.app-header__subtitle {
+  margin-top: 4px;
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+/* Status bar */
+
+.status-bar {
+  min-height: 1.4em;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+/* Meta board */
+
+.meta-board {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.meta-board__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  padding: 6px;
+  background: var(--border);
+  border-radius: 18px;
+}
+
+.meta-board--finished .meta-board__grid {
+  filter: saturate(0.85);
+}
+
+/* Mini board */
+
+.mini-board {
+  position: relative;
+  background: var(--surface);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.mini-board--closed {
+  background: color-mix(in srgb, var(--surface) 90%, var(--border));
+}
+
+.mini-board__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+}
+
+.mini-board__stamp {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2.2rem, 11vw, 3.6rem);
+  font-weight: 800;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+}
+
+.mini-board__stamp--x {
+  color: var(--x-color);
+}
+
+.mini-board__stamp--o {
+  color: var(--o-color);
+}
+
+.mini-board__stamp--draw {
+  color: var(--text);
+  font-size: clamp(1.4rem, 6vw, 2rem);
+}
+
+/* Cell */
+
+.cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border: none;
+  border-radius: 5px;
+  padding: 0;
+  cursor: pointer;
+  font-size: clamp(0.85rem, 3.6vw, 1.3rem);
+  font-weight: 700;
+  color: var(--text-h);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.cell:not(:disabled):hover {
+  background: var(--accent-bg);
+}
+
+.cell--x .cell__mark {
+  color: var(--x-color);
+}
+
+.cell--o .cell__mark {
+  color: var(--o-color);
+}
+
+/* Win line */
+
+.win-line-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.win-line {
+  position: absolute;
+  background: var(--success);
+  border-radius: 999px;
+  box-shadow: 0 0 12px var(--success);
+}
+
+/* Result modal */
+
+.result-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+}
+
+@media (min-width: 640px) {
+  .result-modal-backdrop {
+    align-items: center;
+  }
+}
+
+.result-modal {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border-radius: 20px 20px 12px 12px;
+  padding: 28px 24px 24px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .result-modal {
+    border-radius: 20px;
+  }
+}
+
+.result-modal__title {
+  font-size: 1.5rem;
+}
+
+.result-modal__meta {
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+.result-modal__grid {
+  margin: 8px 0;
+  padding: 14px;
+  background: var(--bg);
+  border-radius: 12px;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  white-space: pre;
+}
+
+.result-modal__footnote {
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+/* Buttons */
+
+.button {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.button--primary {
+  background: var(--accent);
+  color: white;
+}
+
+.button--primary:hover {
+  filter: brightness(1.05);
+}
+
+/* Dev-only rehearsal tools — never present in a production build */
+
+.dev-reset-button {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 6px 10px;
+  border: 1px dashed var(--text);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.7rem;
+  opacity: 0.55;
+  cursor: pointer;
+}
+
+.dev-reset-button:hover {
+  opacity: 1;
+}
