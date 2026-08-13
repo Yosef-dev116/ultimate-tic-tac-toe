@@ -248,6 +248,291 @@
   filter: brightness(1.05);
 }
 
+.button--large {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 1.05rem;
+  margin-top: 4px;
+}
+
+/* Help / "How to Play" button */
+
+.help-button {
+  margin-top: 10px;
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-h);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.help-button:hover {
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+/* Tutorial modal */
+
+.tutorial-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  z-index: 60;
+}
+
+@media (min-width: 640px) {
+  .tutorial-backdrop {
+    align-items: center;
+  }
+}
+
+.tutorial-panel {
+  width: 100%;
+  max-width: 400px;
+  max-height: min(640px, 88svh);
+  background: var(--surface);
+  border-radius: 20px 20px 12px 12px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .tutorial-panel {
+    border-radius: 20px;
+  }
+}
+
+.tutorial-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 20px 0;
+}
+
+.tutorial-panel__title {
+  font-size: 1.2rem;
+  line-height: 1.25;
+}
+
+.tutorial-panel__close {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.tutorial-panel__close:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.tutorial-panel__close:not(:disabled):hover {
+  color: var(--text-h);
+}
+
+.tutorial-panel__body {
+  padding: 16px 20px;
+  overflow-y: auto;
+}
+
+.tutorial-panel__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+}
+
+.tutorial-nav-button {
+  border: none;
+  background: transparent;
+  color: var(--text-h);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.tutorial-nav-button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.tutorial-nav-button--primary {
+  background: var(--accent);
+  color: white;
+  border-radius: 999px;
+  padding: 8px 18px;
+}
+
+.tutorial-progress {
+  display: flex;
+  gap: 6px;
+}
+
+.tutorial-progress__dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--border);
+  cursor: pointer;
+}
+
+.tutorial-progress__dot--active {
+  width: 18px;
+  background: var(--accent);
+}
+
+/* Tutorial step content */
+
+.tutorial-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  min-height: 220px;
+  justify-content: center;
+}
+
+.tutorial-step__text {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--text-h);
+  max-width: 32ch;
+}
+
+.tutorial-step__text--emphasis {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.tutorial-step__caption {
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.tutorial-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.tutorial-list li {
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  color: var(--text-h);
+  text-align: left;
+}
+
+/* Tutorial diagrams */
+
+.tutorial-tinyboard {
+  width: 132px;
+  height: 132px;
+}
+
+.tutorial-redirect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.tutorial-redirect__side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.tutorial-redirect__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tutorial-redirect__arrow {
+  font-size: 1.3rem;
+  color: var(--accent);
+  padding-top: 18px;
+}
+
+.tutorial-meta-preview {
+  position: relative;
+  width: 168px;
+  margin: 0 auto;
+}
+
+.tutorial-meta-preview__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 5px;
+  aspect-ratio: 1 / 1;
+}
+
+.tutorial-meta-preview__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px var(--border);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.tutorial-meta-preview__cell--target {
+  box-shadow: 0 0 0 3px var(--accent), 0 8px 16px -8px var(--accent-border);
+}
+
+.tutorial-meta-preview__cell--available {
+  box-shadow: 0 0 0 2px var(--success);
+}
+
+.tutorial-meta-preview__cell--x {
+  color: var(--x-color);
+}
+
+.tutorial-meta-preview__cell--o {
+  color: var(--o-color);
+}
+
+.tutorial-meta-preview__cell--draw {
+  color: var(--text);
+  font-size: 1rem;
+}
+
 /* Dev-only rehearsal tools — never present in a production build */
 
 .dev-reset-button {

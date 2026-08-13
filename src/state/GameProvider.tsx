@@ -14,8 +14,52 @@ import { GameContext, type GameContextValue } from './GameContext';
 /** Small delay before the AI replies — makes it read as "thinking" instead of instant/robotic. */
 const AI_THINK_DELAY_MS = 550;
 
+/**
+ * How often to re-check the real UTC date against what the app is currently showing.
+ * A web app can stay open (tab left open, phone browser suspended/resumed, laptop sleep)
+ * across a UTC midnight boundary without ever remounting, so `dateKey` can't just be
+ * computed once — it has to be actively watched for as long as the app is running.
+ */
+const DATE_CHECK_INTERVAL_MS = 60_000;
+
 export function GameProvider({ children }: { children: ReactNode }) {
-  const dateKey = useMemo(() => getUtcDateKey(), []);
+  const [dateKey, setDateKey] = useState(() => getUtcDateKey());
+
+  useEffect(() => {
+    function checkForNewDay() {
+      const current = getUtcDateKey();
+      setDateKey((previous) => (previous === current ? previous : current));
+    }
+
+    // Poll as a safety net, but also react immediately when the tab regains
+    // focus/visibility — the far more common real-world trigger for a stale date.
+    const intervalId = window.setInterval(checkForNewDay, DATE_CHECK_INTERVAL_MS);
+    document.addEventListener('visibilitychange', checkForNewDay);
+    window.addEventListener('focus', checkForNewDay);
+
+    return () => {
+      window.clearInterval(intervalId);
+      document.removeEventListener('visibilitychange', checkForNewDay);
+      window.removeEventListener('focus', checkForNewDay);
+    };
+  }, []);
+
+  // Remounting the session by date key resets every piece of day-scoped state
+  // (today's completion lookup, the generated puzzle, and in-progress moves)
+  // together, the same way a fresh page load would.
+  return (
+    <DailySession key={dateKey} dateKey={dateKey}>
+      {children}
+    </DailySession>
+  );
+}
+
+interface DailySessionProps {
+  dateKey: string;
+  children: ReactNode;
+}
+
+function DailySession({ dateKey, children }: DailySessionProps) {
   const puzzleNumber = useMemo(() => getPuzzleNumber(dateKey), [dateKey]);
   const [alreadyCompleted] = useState<PuzzleResult | null>(() => resolveTodayResult(dateKey));
 

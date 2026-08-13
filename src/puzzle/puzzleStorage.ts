@@ -8,7 +8,8 @@ export interface PuzzleResult {
   boardStatus: BoardStatus[];
 }
 
-const STORAGE_PREFIX = 'uttt-daily-result-';
+export const PUZZLE_RESULT_STORAGE_PREFIX = 'uttt-daily-result-';
+const STORAGE_PREFIX = PUZZLE_RESULT_STORAGE_PREFIX;
 
 export function loadPuzzleResult(dateKey: string): PuzzleResult | null {
   try {

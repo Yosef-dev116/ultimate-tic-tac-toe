@@ -7,9 +7,12 @@ import { ResultModal } from './ui/ResultModal';
 import { MetaBoard } from './board/MetaBoard';
 import { CompletedBoardSummary } from './board/CompletedBoardSummary';
 import { DevResetButton } from './dev/DevResetButton';
+import { TutorialModal } from './tutorial/TutorialModal';
+import { useTutorial } from './tutorial/useTutorial';
 
 export function GameScreen() {
   const { game, dateKey, puzzleNumber, alreadyCompleted } = useGame();
+  const tutorial = useTutorial();
 
   const liveResult: PuzzleResult | null = useMemo(() => {
     if (!game.winner) return null;
@@ -26,7 +29,7 @@ export function GameScreen() {
 
   return (
     <>
-      <Header puzzleNumber={puzzleNumber} />
+      <Header puzzleNumber={puzzleNumber} onOpenTutorial={tutorial.open} />
       <StatusBar />
       {alreadyCompleted ? (
         <CompletedBoardSummary boardStatus={alreadyCompleted.boardStatus} />
@@ -34,6 +37,7 @@ export function GameScreen() {
         <MetaBoard />
       )}
       {result && <ResultModal result={result} />}
+      <TutorialModal isOpen={tutorial.isOpen} dismissible={tutorial.dismissible} onClose={tutorial.close} />
       {import.meta.env.DEV && <DevResetButton />}
     </>
   );

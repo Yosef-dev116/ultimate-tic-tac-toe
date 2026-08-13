@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import type { PuzzleResult } from '../../puzzle/puzzleStorage';
 import { buildShareText } from '../../puzzle/shareResult';
 import { HUMAN_PLAYER } from '../../lib/constants';
+import { formatDurationShort, getMsUntilNextUtcDay } from '../../lib/date';
 import { springSoft } from '../../animations/variants';
 
 interface ResultModalProps {
@@ -15,6 +16,7 @@ export function ResultModal({ result }: ResultModalProps) {
 
   const outcomeText =
     result.outcome === HUMAN_PLAYER ? 'You Won!' : result.outcome === 'draw' ? "It's a Draw" : 'AI Wins';
+  const nextPuzzleIn = formatDurationShort(getMsUntilNextUtcDay());
 
   async function handleShare() {
     if (navigator.share) {
@@ -50,7 +52,7 @@ export function ResultModal({ result }: ResultModalProps) {
         <button type="button" className="button button--primary" onClick={handleShare}>
           {copied ? 'Copied!' : 'Share Result'}
         </button>
-        <p className="result-modal__footnote">Come back tomorrow for a new puzzle.</p>
+        <p className="result-modal__footnote">New puzzle in {nextPuzzleIn} (resets at 00:00 UTC).</p>
       </motion.div>
     </div>
   );

@@ -4,7 +4,7 @@ import { AI_PLAYER, HUMAN_PLAYER } from '../../lib/constants';
 import type { BoardStatus, Player } from '../../core/types';
 
 function getStatusText(winner: BoardStatus, currentPlayer: Player, alreadyCompleted: boolean): string {
-  if (alreadyCompleted) return "You've already completed today's puzzle";
+  if (alreadyCompleted) return "You've already completed today's puzzle (resets 00:00 UTC)";
   if (winner === HUMAN_PLAYER) return 'You win! 🏆';
   if (winner === 'draw') return "It's a draw";
   if (winner) return 'AI wins this one';
