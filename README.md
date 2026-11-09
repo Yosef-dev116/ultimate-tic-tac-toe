@@ -104,7 +104,7 @@ Command-line debug builds:
 xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug \
   -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath /tmp/uttt-dd build CODE_SIGNING_ALLOWED=NO
 
-# Android (needs JDK 17 to 21 and an Android SDK; Gradle 8.14 does not run on JDK 25 or newer)
+# Android (needs JDK 21 and an Android SDK; the build targets Java 21, and Gradle 8.14 does not run on JDK 25 or newer)
 cd android && ./gradlew assembleDebug
 ```
 

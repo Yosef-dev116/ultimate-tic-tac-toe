@@ -101,7 +101,7 @@ Apple guideline 4.2 rejects apps that are only a website in a wrapper. This app 
 5. The file is `android/app/release/app-release.aab`. Do not commit it.
 6. Raise `versionCode` in `android/app/build.gradle` for every new upload. Set `versionName` to the version people see.
 
-Android Studio may ask you to install Android SDK Build-Tools. Accept. The command-line build needs JDK 17 to 21.
+Android Studio may ask you to install Android SDK Build-Tools. Accept. The command-line build needs JDK 21. The project targets Java 21, so JDK 17 fails to compile.
 
 ### 2.5 Upload to the internal testing track
 

@@ -221,6 +221,12 @@
 }
 
 .result-modal__grid {
+  /* The game suppresses selection and long-press callouts (see body and #root).
+     The share text stays selectable, with the iOS copy menu, so a player can copy
+     it by hand when Web Share and the clipboard both fail. */
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
   margin: 8px 0;
   padding: 14px;
   background: var(--bg);
