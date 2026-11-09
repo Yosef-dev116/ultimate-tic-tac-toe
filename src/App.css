@@ -317,6 +317,11 @@
   overflow: hidden;
 }
 
+/* The dialog container takes focus from script for screen readers. It is not a control, so no ring. */
+.tutorial-panel:focus {
+  outline: none;
+}
+
 @media (min-width: 640px) {
   .tutorial-panel {
     border-radius: 20px;

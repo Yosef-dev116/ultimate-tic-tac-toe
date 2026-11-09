@@ -35,7 +35,7 @@ A "Share Result" button copies a Wordle-style emoji summary of your game.
 
 ## Local setup
 
-Requires Node.js 20+.
+Requires Node.js 20+ for the web app. The mobile tooling needs Node.js 22+.
 
 ```bash
 npm install
@@ -78,6 +78,83 @@ This is a static Vite build with no server-side code or environment variables re
    output directory (`dist`) — no configuration file is required.
 4. Deploy. Every subsequent push to the default branch redeploys automatically; other
    branches and PRs get their own preview URLs.
+
+## Mobile app
+
+The web game also ships as a real iOS and Android app, built with [Capacitor](https://capacitorjs.com).
+The app bundles the Vite build. It works offline and makes no network calls.
+
+### Run it
+
+Requires Node.js 22+ (Capacitor 8 needs it), Xcode for iOS, and Android Studio for Android.
+
+```bash
+npm install
+npm run build && npx cap sync   # build the web app and copy it into ios/ and android/
+npx cap open ios                # opens Xcode: pick a simulator and press Run
+npx cap open android            # opens Android Studio: pick an emulator and press Run
+```
+
+Run `npm run build && npx cap sync` again after every change to `src/`.
+
+Command-line debug builds:
+
+```bash
+# iOS Simulator
+xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug \
+  -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath /tmp/uttt-dd build CODE_SIGNING_ALLOWED=NO
+
+# Android (needs JDK 17 to 21 and an Android SDK; Gradle 8.14 does not run on JDK 25 or newer)
+cd android && ./gradlew assembleDebug
+```
+
+### Project layout
+
+| Path | What it is |
+| --- | --- |
+| `capacitor.config.ts` | App id, app name, web directory (`dist`), splash and system bar settings |
+| `src/native/` | All native-only code: platform check, haptics, share, startup. The rest of `src/` is plain web code |
+| `ios/` | Xcode project (Swift Package Manager, no CocoaPods). Committed |
+| `android/` | Android Studio project. Committed |
+| `resources/` | Icon and splash sources (`*.png`, plus the SVGs in `resources/src/`) |
+| `scripts/build-resources.mjs` | Redraws the `resources/` PNGs from the SVG marks |
+| `store/` | Store listing text, privacy policy, support page, release guide, screenshots |
+
+Regenerate icons and splash screens after you change `resources/`:
+
+```bash
+npm run resources   # optional: redraw the PNGs from scripts/build-resources.mjs
+npm run cap:assets  # write every icon and splash size into ios/ and android/
+```
+
+### What is native
+
+- Safe-area insets (`viewport-fit=cover`, `env(safe-area-inset-*)`), so nothing sits under the notch, Dynamic Island, or home indicator.
+- System bars follow the light or dark appearance (Capacitor `SystemBars`).
+- Haptics: a light tap when you place a move, and a success, error, or warning pattern when the game ends (`@capacitor/haptics`).
+- The native share sheet for the daily result (`@capacitor/share`). The web build keeps the Web Share API and clipboard fallback.
+- A launch splash screen (light and dark) that fades out when the board has painted (`@capacitor/splash-screen`).
+- No pull-to-refresh or rubber-band bounce, no text selection or long-press menus on the board, and no double-tap zoom.
+- Phones stay in portrait. Tablets can rotate.
+
+Every native call checks `Capacitor.isNativePlatform()` first, so `npm run dev` and the Vercel build behave as before.
+
+### Changing the app id
+
+The app id is `com.yosefmekonnen.ultimatetictactoe`. Change it before the first store upload.
+Stores treat the id as permanent after that. To change it, replace the string in these places:
+
+1. `capacitor.config.ts`: `appId`.
+2. iOS: `PRODUCT_BUNDLE_IDENTIFIER` in `ios/App/App.xcodeproj/project.pbxproj` (two places), or in Xcode under Signing & Capabilities.
+3. Android: `namespace` and `applicationId` in `android/app/build.gradle`.
+4. Android: `package_name` and `custom_url_scheme` in `android/app/src/main/res/values/strings.xml`.
+5. Android: the `package` line in `MainActivity.java`, and move it to the matching folder under `android/app/src/main/java/`.
+
+Then run `npm run build && npx cap sync`.
+
+### Store release
+
+See `store/RELEASING.md` (step-by-step for TestFlight and the Play internal testing track), `store/listing.md`, `store/PRIVACY.md`, and `store/SUPPORT.md`.
 
 ## Development reset procedure
 
