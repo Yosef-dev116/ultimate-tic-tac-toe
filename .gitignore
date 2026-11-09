@@ -27,3 +27,17 @@ dist-ssr
 .env*
 
 .claude/
+
+# Native projects (ios/ and android/ also carry Capacitor's own .gitignore files)
+ios/App/Pods/
+ios/App/build/
+ios/App/CapApp-SPM/.build/
+DerivedData/
+xcuserdata/
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/captures/
+.externalNativeBuild/
+.cxx/
