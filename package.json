@@ -17,7 +17,6 @@
     "@capacitor/haptics": "^8.0.2",
     "@capacitor/share": "^8.0.3",
     "@capacitor/splash-screen": "^8.0.2",
-    "@capacitor/status-bar": "^8.0.4",
     "motion": "^12.43.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

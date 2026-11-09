@@ -12,6 +12,10 @@ const config: CapacitorConfig = {
     backgroundColor: '#f7f6f3',
   },
   plugins: {
+    SystemBars: {
+      insetsHandling: 'css',
+      style: 'DEFAULT',
+    },
     SplashScreen: {
       launchAutoHide: false,
       backgroundColor: '#7c3aed',

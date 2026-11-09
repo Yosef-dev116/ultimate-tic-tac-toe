@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import type { PuzzleResult } from '../../puzzle/puzzleStorage';
 import { buildShareText } from '../../puzzle/shareResult';
+import { shareResultText } from '../../native/share';
 import { HUMAN_PLAYER } from '../../lib/constants';
 import { formatDurationShort, getMsUntilNextUtcDay } from '../../lib/date';
 import { springSoft } from '../../animations/variants';
@@ -19,21 +20,10 @@ export function ResultModal({ result }: ResultModalProps) {
   const nextPuzzleIn = formatDurationShort(getMsUntilNextUtcDay());
 
   async function handleShare() {
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: 'Ultimate Tic-Tac-Toe', text: shareText });
-      } catch {
-        // user dismissed the native share sheet — nothing to do
-      }
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(shareText);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // clipboard unavailable — the share text is still visible in the modal
-    }
+    const outcome = await shareResultText(shareText);
+    if (outcome !== 'copied') return;
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 2000);
   }
 
   return (

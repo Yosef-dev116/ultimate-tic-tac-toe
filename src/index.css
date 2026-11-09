@@ -13,6 +13,12 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
+  /* Safe areas: env() on iOS and modern Android WebView, Capacitor's injected variable on older Android. */
+  --safe-top: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px));
+  --safe-right: max(env(safe-area-inset-right, 0px), var(--safe-area-inset-right, 0px));
+  --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px));
+  --safe-left: max(env(safe-area-inset-left, 0px), var(--safe-area-inset-left, 0px));
+
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
 
@@ -50,9 +56,25 @@
   box-sizing: border-box;
 }
 
+html {
+  /* No pull-to-refresh or rubber-band bounce. */
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   min-height: 100svh;
+  overscroll-behavior: none;
+  /* Removes the double-tap-to-zoom delay and gesture while keeping pinch zoom on the web. */
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+}
+
+/* The game is not a document. No text selection or long-press callouts on it. */
+#root {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 h1,
