@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "cap:sync": "npm run build && cap sync",
-    "cap:assets": "capacitor-assets generate --iconBackgroundColor '#7c3aed' --splashBackgroundColor '#7c3aed'"
+    "cap:assets": "capacitor-assets generate --ios --android --iconBackgroundColor '#7c3aed' --iconBackgroundColorDark '#7c3aed' --splashBackgroundColor '#f7f6f3' --splashBackgroundColorDark '#121218'",
+    "resources": "node scripts/build-resources.mjs"
   },
   "dependencies": {
     "@capacitor/core": "^8.6.0",
@@ -35,6 +36,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
+    "sharp": "^0.35.5",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.65.0",
     "vite": "^8.2.0",
