@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Ultimate Tic-Tac-Toe</string>
+    <string name="title_activity_main">Ultimate Tic-Tac-Toe</string>
+    <string name="package_name">com.yosefmekonnen.ultimatetictactoe</string>
+    <string name="custom_url_scheme">com.yosefmekonnen.ultimatetictactoe</string>
+</resources>

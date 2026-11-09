@@ -8,6 +8,7 @@ import { savePuzzleResult, type PuzzleResult } from '../puzzle/puzzleStorage';
 import { resolveTodayResult } from '../puzzle/devReset';
 import { getPuzzleNumber, getUtcDateKey } from '../lib/date';
 import { AI_PLAYER, HUMAN_PLAYER } from '../lib/constants';
+import { hapticMovePlaced, hapticOutcome } from '../native/haptics';
 import { createInitialAppState, gameReducer } from './gameReducer';
 import { GameContext, type GameContextValue } from './GameContext';
 
@@ -71,6 +72,7 @@ function DailySession({ dateKey, children }: DailySessionProps) {
   useEffect(() => {
     if (alreadyCompleted || !state.game.winner || hasSavedRef.current) return;
     hasSavedRef.current = true;
+    hapticOutcome(state.game.winner);
     savePuzzleResult({
       dateKey,
       puzzleNumber,
@@ -96,6 +98,7 @@ function DailySession({ dateKey, children }: DailySessionProps) {
     if (alreadyCompleted || state.game.currentPlayer !== HUMAN_PLAYER || state.isAiThinking) return;
     const move: Move = { boardIndex, cellIndex };
     if (!isLegalMove(state.game, move)) return;
+    hapticMovePlaced();
     dispatch({ type: 'PLAY_MOVE', move });
   };
 

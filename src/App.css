@@ -8,7 +8,11 @@
 .app-main {
   width: 100%;
   max-width: 480px;
-  padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+  padding:
+    calc(20px + var(--safe-top))
+    calc(16px + var(--safe-right))
+    calc(20px + var(--safe-bottom))
+    calc(16px + var(--safe-left));
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -174,7 +178,11 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 16px;
+  padding:
+    max(16px, var(--safe-top))
+    max(16px, var(--safe-right))
+    max(16px, var(--safe-bottom))
+    max(16px, var(--safe-left));
   z-index: 50;
 }
 
@@ -213,6 +221,12 @@
 }
 
 .result-modal__grid {
+  /* The game suppresses selection and long-press callouts (see body and #root).
+     The share text stays selectable, with the iOS copy menu, so a player can copy
+     it by hand when Web Share and the clipboard both fail. */
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
   margin: 8px 0;
   padding: 14px;
   background: var(--bg);
@@ -283,7 +297,11 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 16px;
+  padding:
+    max(16px, var(--safe-top))
+    max(16px, var(--safe-right))
+    max(16px, var(--safe-bottom))
+    max(16px, var(--safe-left));
   z-index: 60;
 }
 
@@ -303,6 +321,11 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+/* The dialog container takes focus from script for screen readers. It is not a control, so no ring. */
+.tutorial-panel:focus {
+  outline: none;
 }
 
 @media (min-width: 640px) {
@@ -355,7 +378,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+  padding: 12px 16px 16px;
   border-top: 1px solid var(--border);
 }
 
@@ -537,8 +560,8 @@
 
 .dev-reset-button {
   position: fixed;
-  bottom: 12px;
-  left: 12px;
+  bottom: calc(12px + var(--safe-bottom));
+  left: calc(12px + var(--safe-left));
   z-index: 100;
   padding: 6px 10px;
   border: 1px dashed var(--text);
